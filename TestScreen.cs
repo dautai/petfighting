@@ -1,30 +1,83 @@
 using UnityEngine;
 using System.Collections;
 
-public class TestScreen : MonoBehaviour {
+public class TestScreen : MonoBehaviour
+{
 	public GUISkin skin;
-	private Rect windowRect = new Rect(20, 20, 120, 50);
-    private Rect windowRect2 = new Rect(80, 20, 120, 50);
-    void OnGUI() {
-		GUI.skin = skin;
-        windowRect = GUI.Window(0, windowRect, DoMyFirstWindow, "First");
-        windowRect2 = GUI.Window(1, windowRect2, DoMySecondWindow, "Second");
-		if(GUI.Button(new Rect(20, 35, 179, 40), "Options", "ButtonGeneral"))
+	string text = "";
+	public GameObject audioInputObject;
+	public float threshold = 10.0f;
+	MicrophoneInput micIn;
+	bool speak = false;
+	float volumn = 0.0f;
+	int timeStart = 0;
+	int timer = 0;
+	
+	float tempthreshold = 10.0f;
+
+	void Start ()
+	{
+		foreach (string device in Microphone.devices) {
+			Debug.Log ("Name: " + device);
+			text += device + "\n==";
+		}
+		if (audioInputObject == null)
+			audioInputObject = GameObject.Find ("MicMonitor");
+		micIn = (MicrophoneInput)audioInputObject.GetComponent ("MicrophoneInput");
+	}
+
+	void Update ()
+	{
+		if(micIn.isRecording)
 		{
-			Application.LoadLevel("Screen6");
+			volumn = micIn.loudness;
+			tempthreshold +=volumn;
+			if (volumn > threshold) {
+				speak = true;
+			} else {
+				speak = false;
+			}
 		}
 		
-    }
-    void DoMyFirstWindow(int windowID) {
-        if (GUI.Button(new Rect(10, 20, 100, 20), "Bring to front"))
-            GUI.BringWindowToFront(1);
-        
-        GUI.DragWindow(new Rect(0, 0, 10000, 20));
-    }
-    void DoMySecondWindow(int windowID) {
-        if (GUI.Button(new Rect(10, 20, 100, 20), "Bring to front"))
-            GUI.BringWindowToFront(0);
-        
-        GUI.DragWindow(new Rect(0, 0, 10000, 20));
-    }
+		
+	}
+	
+	void OnGUI ()
+	{
+		GUI.skin = skin;
+
+		GUI.Label (new Rect (20, 20, 300, 30), text, "LabelNormal");
+		
+		GUI.Label (new Rect (290, 190, 100, 20), "Threshold = " + threshold.ToString () + "; l = " + volumn.ToString (), "LabelNormal");
+		
+		GUI.Label (new Rect (100, 200-(int)volumn, 10, (int)volumn), "", "WindowCover");
+		
+		
+		if(micIn.isRecording)
+		{
+			timer = (int)Time.time - timeStart;
+			GUI.Label (new Rect (380, 250, 70, 50), "Timer = " + timer, "LabelNormal");
+		}
+		
+		GUI.Button (new Rect (100, 50, 20, 20), "", "ButtonGeneral");
+		if (speak == true) {
+			GUI.Button (new Rect (200, 50, 100, 100), "", "ButtonGeneral");
+		}
+		
+		if (GUI.Button (new Rect (0, 0, 50, 50), "Quit")) {
+			Application.Quit ();
+		}
+		
+		if (GUI.Button (new Rect (200, 250, 70, 50), "Play", "ButtonGeneral")) {
+			audio.PlayOneShot(micIn.clip);
+		}
+		
+		if (GUI.Button (new Rect (100, 250, 70, 50), "Record", "ButtonGeneral")) {
+			micIn.record();
+			timeStart = (int)Time.time;
+		}
+		
+		//tim nguong
+	}
+
 }
