@@ -7,16 +7,12 @@ public class Screen1 : MonoBehaviour {
 	public GUISkin skin;
 	GameObject Avatar;
 	GameObject petBackground;
-	//debug
-	string debugstr = "";
 	// Use this for initialization
 	void Start () {
 		loginedRect = new Rect(380, 60, 70, 50);
 		Avatar = GameObject.Find("Avatar");
 		petBackground = GameObject.Find("Pet");
 		
-		Service1 ser = new Service1();
-		debugstr = ser.GetIP("SiuNhanDua");
 	}
 	
 	// Update is called once per frame
@@ -51,7 +47,6 @@ public class Screen1 : MonoBehaviour {
 		{
 			if(GlobalScript.logined)
 			{
-				GlobalScript.numberOfPet = 2;
 				Application.LoadLevel("Screen7");
 			}
 			else
@@ -99,8 +94,5 @@ public class Screen1 : MonoBehaviour {
 			petBackground.guiTexture.texture = Resources.Load("Screen1-NoPet") as Texture2D;
 			petBackground.guiTexture.border = new RectOffset(0,0,0,0);
 		}
-		
-		//debug
-		GUI.Label(new Rect(10, 10, 300, 30), debugstr);
 	}
 }

@@ -16,9 +16,6 @@ public class Screen14 : MonoBehaviour {
 		pet = new GlobalScript.Pet("Lika", 20, 26, medal, 420, 500, 400, 600, 1807, 500, skills, "image5");
 		iconScene = Resources.Load(pet.avatar) as Texture2D;
 		titleName = "Pet: " + pet.petName;
-		//new------------
-		titleName = "Pet: " + GlobalScript.petDatas[GlobalScript.currentPet].petName;
-		//---------------
 	}
 	
 	// Update is called once per frame
@@ -33,7 +30,7 @@ public class Screen14 : MonoBehaviour {
 		GUI.Label(new Rect(430, 0, 50, 50), iconScene, "LabelNormal"); //Icon is the avatar in pettype table
 		GlobalScript.DrawAvatar();	
 		
-		//GUI.Box(new Rect(0, 50, 320, 225), "put camera pet 3D here", "BoxGroup2");
+		GUI.Box(new Rect(0, 50, 320, 225), "put camera pet 3D here", "BoxGroup2");
 		
 		//Write info
 		GUI.BeginGroup(new Rect(320, 50, 160, 220));
@@ -41,34 +38,32 @@ public class Screen14 : MonoBehaviour {
 			//name
 			styleLabel.fontStyle = FontStyle.Bold;
 			styleLabel.fontSize = 25;
-			GUI.Label(new Rect(5, 0, 60, 30), GlobalScript.petDatas[GlobalScript.currentPet].petName, styleLabel); 
+			GUI.Label(new Rect(5, 0, 60, 30), pet.petName, styleLabel); 
 			
 			styleLabel.fontStyle = FontStyle.BoldAndItalic;
 			styleLabel.fontSize = 20;
 			styleLabel.normal.textColor = Color.grey;
 			//Level
 			GUI.Label(new Rect(5, 35, 60, 22), "Level:");
-			GUI.Label(new Rect(60, 35, 60, 22), GlobalScript.petDatas[GlobalScript.currentPet].levelPet.ToString(), styleLabel);
+			GUI.Label(new Rect(60, 35, 60, 22), pet.level.ToString(), styleLabel);
 			//Medal
 			GUI.Label(new Rect(5, 62, 60, 22), "Medal:");
-			GUI.Label(new Rect(60, 62, 60, 22), GlobalScript.petDatas[GlobalScript.currentPet].medals.Count.ToString()); //Load list of avatar of Medals
+			GUI.Label(new Rect(60, 62, 60, 22), pet.medal.Length.ToString()); //Load list of avatar of Medals
 			//mana
 			GUI.Label(new Rect(5, 89, 60, 22), "Mana:");
-			GlobalScript.drawStretch(1, new Rect(60, 89, 95, 22), GlobalScript.petDatas[GlobalScript.currentPet].mana,
-				GlobalScript.petDatas[GlobalScript.currentPet].maxMana, true);
+			GlobalScript.drawStretch(1, new Rect(60, 89, 95, 22), pet.mana, pet.maxMana, true);
 			//blood
 			GUI.Label(new Rect(5, 116, 60, 22), "Blood:");
-			GlobalScript.drawStretch(2, new Rect(60, 116, 95, 22), GlobalScript.petDatas[GlobalScript.currentPet].food,
-				GlobalScript.petDatas[GlobalScript.currentPet].maxFood, true);
+			GlobalScript.drawStretch(2, new Rect(60, 116, 95, 22), pet.blood, pet.maxBlood, true);
 			//Rate
 			GUI.Label(new Rect(5, 143, 60, 22), "Rate:");
-			GUI.Label(new Rect(60, 143, 60, 22), GlobalScript.petDatas[GlobalScript.currentPet].rate.ToString(), styleLabel);
+			GUI.Label(new Rect(60, 143, 60, 22), pet.rate.ToString(), styleLabel);
 			//XP
 			GUI.Label(new Rect(5, 170, 60, 22), "XP:");
-			GUI.Label(new Rect(60, 170, 60, 22), GlobalScript.petDatas[GlobalScript.currentPet].xp.ToString(), styleLabel);
+			GUI.Label(new Rect(60, 170, 60, 22), pet.XP.ToString(), styleLabel);
 			//Skills
 			GUI.Label(new Rect(5, 197, 60, 22), "Skills:");
-			GUI.Label(new Rect(60, 197, 60, 22), GlobalScript.petDatas[GlobalScript.currentPet].lSkill.Count.ToString(), styleLabel);
+			GUI.Label(new Rect(60, 197, 60, 22), pet.skills.Length.ToString(), styleLabel);
 		GUI.EndGroup();
 		
 		//Draw button

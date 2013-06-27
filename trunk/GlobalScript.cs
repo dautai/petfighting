@@ -1,31 +1,30 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public static class GlobalScript : object 
-{	
-	//------------------------------
-	public static List<PetData> petDatas;
-	public static int playerID;
-	public static List<PetDetail> petDetails;
-	//---------------------------
-	
+public class GlobalScript : MonoBehaviour {
 	//variable for user
 	public static bool logined = false;
-	public static Texture2D avatar = Resources.Load("image24") as Texture2D;
+	public static Texture2D avatar;
 	public static string username = "";
 	public static int numberOfPet = 0;
-	public static ArrayList petlist = new ArrayList();
+	public ArrayList petlist = new ArrayList();
 	//variable for action
 	public static bool pressAvatar = false;
 	public static bool showPopup = false;
 	//variable for Options
 	public static float brightness = 50f;
 	public static float volumn = 50f;
-	public static string resolution = "480x320";	
-	//14
+	public static string resolution = "480x320";
+	//variable for pet (screen 14)
 	public static int currentPet = -1;
-
+	// Use this for initialization
+	void Start () {
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	}
+	
 	public class Pet
 	{
 		public string petName;
@@ -57,19 +56,30 @@ public static class GlobalScript : object
 			maxMana = maxMana1;
 			blood = blood1;
 			maxBlood = maxBlood1;
-
 			rate = rate1;
 			XP = XP1;
 			skills = skills1;
 			avatar = avatar1;
 		}
 	}
-	static GlobalScript()
+	
+	public class Skill
 	{
-		petDatas = null;
-		playerID = -100;
-		petDetails = null;
+		public string symbol;
+		public string name;	//phan am thanh, tam thoi chua dung
+		
+		
+		public Skill ()
+		{
+		}
+		
+		public Skill (string symbol1, string name1)
+		{
+			symbol = symbol1;
+			name = name1;
+		}
 	}
+
 	//draw avatar
 	public static void DrawAvatar()
 	{
@@ -89,7 +99,8 @@ public static class GlobalScript : object
 			GUI.Box (new Rect(50, 0, 430, 50),"", "WindowCover");
 			windowsTabs = GUI.Window(0, windowsTabs, ShowAccountTabs, "", "WindowCover");
 		}
-	}	
+	}
+	
 	public static void ShowAccountTabs(int windowID)
 	{
 		GUIStyle accountBackgroundStyle = new GUIStyle(GUI.skin.box);
@@ -102,6 +113,7 @@ public static class GlobalScript : object
 		}
 		GUI.EndGroup();
 	}
+	
 	public static void  PopupPleaseLogin()
 	{
 		Rect windows = new Rect(0, 0, Screen.width, Screen.height);
@@ -109,6 +121,7 @@ public static class GlobalScript : object
 		windows = GUI.Window(1, windows, DrawPopup, "", "WindowCover");
 		GUI.depth-=1;
 	}
+	
 	public static void DrawPopup(int windowID)
 	{
 		
@@ -122,29 +135,10 @@ public static class GlobalScript : object
 			}
 		GUI.EndGroup();
 	}
-	static string Label1;
-	static string content1;
-	public static void  PopupRegister(string Label, string content)
-	{
-		Rect windows = new Rect(0, 0, Screen.width, Screen.height);
-		GUI.depth +=1;
-		Label1 = Label;
-		content1 = content;
-		windows = GUI.Window(2, windows, DrawPopupRegister, "", "WindowCover");
-		GUI.depth-=1;
-	}		
-	public static void DrawPopupRegister(int windowID)
+	
+	public static void CreatNewPet(int selectingPet)
 	{
 		
-		GUI.BeginGroup(new Rect(140, 110, 250, 100), Label1, "MessageBackground");
-		
-			GUIStyle style = new GUIStyle(GUI.skin.customStyles[2]);
-			GUI.Label(new Rect(10, 30, 230, 55), content1, style);
-			if(GUI.Button(new Rect(50, 70, 100, 25), "OK", "ButtonGeneral"))
-			{
-				Application.LoadLevel("Screen2");
-			}
-		GUI.EndGroup();
 	}
 	
 	public static void drawStretch(int type, Rect rect1, int value1, int valuemax, bool showValue)
@@ -172,29 +166,5 @@ public static class GlobalScript : object
 			if(type == 1) stretchStyle.normal.textColor = Color.white;
 			GUI.Label(rect1, value1.ToString() +"/"+ valuemax.ToString(), "LabelNormal");
 		}
-	}
-	
-	public static void GetPetData()
-	{
-		string str;
-		string[] strs;
-		Service1 ser = new Service1();
-		str = ser.GetListPet(playerID);
-		strs = str.Split(':');		
-		
-		
-		//set pet data
-		petDatas = new System.Collections.Generic.List<PetData>();
-		for(int i = 0; i < strs.Length; ++i)
-		{
-			if(strs[i] == "")
-				continue;
-			PetData tPet = new PetData();
-			tPet.SetData(strs[i]);
-			
-			petDatas.Add(tPet);
-		}
-		
-		numberOfPet = GlobalScript.petDatas.Count;
 	}
 }
