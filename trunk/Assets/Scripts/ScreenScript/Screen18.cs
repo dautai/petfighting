@@ -47,9 +47,9 @@ public class Screen18 : MonoBehaviour {
 			for(int i = 0; i< NuSkills; i++){
 				GUI.BeginGroup(new Rect(5, 35+i*55, 450, 50));
 					GUI.Label(new Rect(0, 0, 440, 2), "", "WindowCover");
-					Texture2D avatar = Resources.Load(listSkills[i].symbol) as Texture2D;
+					Texture2D avatar = Resources.Load(GS.curPet.lSkill[i].symbol) as Texture2D;
 					GUI.Label(new Rect(0, 2, 100, 50), avatar, "LabelNormal");
-					GUI.Label(new Rect(80, 2, 150, 50), listSkills[i].name, "LabelNormal");
+					GUI.Label(new Rect(80, 2, 150, 50), GS.curPet.lSkill[i].name, "LabelNormal");
 					if(GUI.Button(new Rect(250, 7, 40, 40), "", "ButtonCommand"))
 					{
 					}

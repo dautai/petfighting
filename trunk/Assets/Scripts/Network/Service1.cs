@@ -30,6 +30,8 @@ public partial class Service1 : System.Web.Services.Protocols.SoapHttpClientProt
     
     private System.Threading.SendOrPostCallback RegisterOperationCompleted;
     
+    private System.Threading.SendOrPostCallback LogOutOperationCompleted;
+    
     private System.Threading.SendOrPostCallback LogInOperationCompleted;
     
     private System.Threading.SendOrPostCallback GetIPOperationCompleted;
@@ -39,6 +41,10 @@ public partial class Service1 : System.Web.Services.Protocols.SoapHttpClientProt
     private System.Threading.SendOrPostCallback GetListMovementOperationCompleted;
     
     private System.Threading.SendOrPostCallback GetListSkillOperationCompleted;
+    
+    private System.Threading.SendOrPostCallback GetListIDSkillOperationCompleted;
+    
+    private System.Threading.SendOrPostCallback GetSkilDataOperationCompleted;
     
     private System.Threading.SendOrPostCallback GetListPetOperationCompleted;
     
@@ -57,6 +63,9 @@ public partial class Service1 : System.Web.Services.Protocols.SoapHttpClientProt
     public event RegisterCompletedEventHandler RegisterCompleted;
     
     /// <remarks/>
+    public event LogOutCompletedEventHandler LogOutCompleted;
+    
+    /// <remarks/>
     public event LogInCompletedEventHandler LogInCompleted;
     
     /// <remarks/>
@@ -70,6 +79,12 @@ public partial class Service1 : System.Web.Services.Protocols.SoapHttpClientProt
     
     /// <remarks/>
     public event GetListSkillCompletedEventHandler GetListSkillCompleted;
+    
+    /// <remarks/>
+    public event GetListIDSkillCompletedEventHandler GetListIDSkillCompleted;
+    
+    /// <remarks/>
+    public event GetSkilDataCompletedEventHandler GetSkilDataCompleted;
     
     /// <remarks/>
     public event GetListPetCompletedEventHandler GetListPetCompleted;
@@ -115,6 +130,34 @@ public partial class Service1 : System.Web.Services.Protocols.SoapHttpClientProt
         if ((this.RegisterCompleted != null)) {
             System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
             this.RegisterCompleted(this, new RegisterCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks/>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/LogOut", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+    public void LogOut(string id) {
+        this.Invoke("LogOut", new object[] {
+                    id});
+    }
+    
+    /// <remarks/>
+    public void LogOutAsync(string id) {
+        this.LogOutAsync(id, null);
+    }
+    
+    /// <remarks/>
+    public void LogOutAsync(string id, object userState) {
+        if ((this.LogOutOperationCompleted == null)) {
+            this.LogOutOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLogOutOperationCompleted);
+        }
+        this.InvokeAsync("LogOut", new object[] {
+                    id}, this.LogOutOperationCompleted, userState);
+    }
+    
+    private void OnLogOutOperationCompleted(object arg) {
+        if ((this.LogOutCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.LogOutCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
         }
     }
     
@@ -268,6 +311,64 @@ public partial class Service1 : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     /// <remarks/>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetListIDSkill", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+    public int[] GetListIDSkill(int petID) {
+        object[] results = this.Invoke("GetListIDSkill", new object[] {
+                    petID});
+        return ((int[])(results[0]));
+    }
+    
+    /// <remarks/>
+    public void GetListIDSkillAsync(int petID) {
+        this.GetListIDSkillAsync(petID, null);
+    }
+    
+    /// <remarks/>
+    public void GetListIDSkillAsync(int petID, object userState) {
+        if ((this.GetListIDSkillOperationCompleted == null)) {
+            this.GetListIDSkillOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetListIDSkillOperationCompleted);
+        }
+        this.InvokeAsync("GetListIDSkill", new object[] {
+                    petID}, this.GetListIDSkillOperationCompleted, userState);
+    }
+    
+    private void OnGetListIDSkillOperationCompleted(object arg) {
+        if ((this.GetListIDSkillCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.GetListIDSkillCompleted(this, new GetListIDSkillCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks/>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetSkilData", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+    public string GetSkilData(int skillID) {
+        object[] results = this.Invoke("GetSkilData", new object[] {
+                    skillID});
+        return ((string)(results[0]));
+    }
+    
+    /// <remarks/>
+    public void GetSkilDataAsync(int skillID) {
+        this.GetSkilDataAsync(skillID, null);
+    }
+    
+    /// <remarks/>
+    public void GetSkilDataAsync(int skillID, object userState) {
+        if ((this.GetSkilDataOperationCompleted == null)) {
+            this.GetSkilDataOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetSkilDataOperationCompleted);
+        }
+        this.InvokeAsync("GetSkilData", new object[] {
+                    skillID}, this.GetSkilDataOperationCompleted, userState);
+    }
+    
+    private void OnGetSkilDataOperationCompleted(object arg) {
+        if ((this.GetSkilDataCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.GetSkilDataCompleted(this, new GetSkilDataCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks/>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetListPet", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
     public string GetListPet(int playerID) {
         object[] results = this.Invoke("GetListPet", new object[] {
@@ -414,6 +515,10 @@ public partial class RegisterCompletedEventArgs : System.ComponentModel.AsyncCom
 
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "0.0.0.0")]
+public delegate void LogOutCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "0.0.0.0")]
 public delegate void LogInCompletedEventHandler(object sender, LogInCompletedEventArgs e);
 
 /// <remarks/>
@@ -529,6 +634,58 @@ public partial class GetListSkillCompletedEventArgs : System.ComponentModel.Asyn
     private object[] results;
     
     internal GetListSkillCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    /// <remarks/>
+    public string Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[0]));
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "0.0.0.0")]
+public delegate void GetListIDSkillCompletedEventHandler(object sender, GetListIDSkillCompletedEventArgs e);
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "0.0.0.0")]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+public partial class GetListIDSkillCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal GetListIDSkillCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    /// <remarks/>
+    public int[] Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((int[])(this.results[0]));
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "0.0.0.0")]
+public delegate void GetSkilDataCompletedEventHandler(object sender, GetSkilDataCompletedEventArgs e);
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "0.0.0.0")]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+public partial class GetSkilDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal GetSkilDataCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
             base(exception, cancelled, userState) {
         this.results = results;
     }
