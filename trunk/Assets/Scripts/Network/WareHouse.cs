@@ -36,6 +36,8 @@ public partial class WareHouse : System.Web.Services.Protocols.SoapHttpClientPro
     
     private System.Threading.SendOrPostCallback BuyItemOperationCompleted;
     
+    private System.Threading.SendOrPostCallback GetMedalOperationCompleted;
+    
     /// <remarks/>
     public WareHouse() {
         this.Url = "http://localhost:3150/WareHouse.asmx";
@@ -52,6 +54,9 @@ public partial class WareHouse : System.Web.Services.Protocols.SoapHttpClientPro
     
     /// <remarks/>
     public event BuyItemCompletedEventHandler BuyItemCompleted;
+    
+    /// <remarks/>
+    public event GetMedalCompletedEventHandler GetMedalCompleted;
     
     /// <remarks/>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/HelloWorld", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -170,6 +175,35 @@ public partial class WareHouse : System.Web.Services.Protocols.SoapHttpClientPro
     }
     
     /// <remarks/>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetMedal", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+    public int[] GetMedal(int idpet) {
+        object[] results = this.Invoke("GetMedal", new object[] {
+                    idpet});
+        return ((int[])(results[0]));
+    }
+    
+    /// <remarks/>
+    public void GetMedalAsync(int idpet) {
+        this.GetMedalAsync(idpet, null);
+    }
+    
+    /// <remarks/>
+    public void GetMedalAsync(int idpet, object userState) {
+        if ((this.GetMedalOperationCompleted == null)) {
+            this.GetMedalOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMedalOperationCompleted);
+        }
+        this.InvokeAsync("GetMedal", new object[] {
+                    idpet}, this.GetMedalOperationCompleted, userState);
+    }
+    
+    private void OnGetMedalOperationCompleted(object arg) {
+        if ((this.GetMedalCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.GetMedalCompleted(this, new GetMedalCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks/>
     public new void CancelAsync(object userState) {
         base.CancelAsync(userState);
     }
@@ -275,6 +309,32 @@ public partial class BuyItemCompletedEventArgs : System.ComponentModel.AsyncComp
         get {
             this.RaiseExceptionIfNecessary();
             return ((int)(this.results[0]));
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "0.0.0.0")]
+public delegate void GetMedalCompletedEventHandler(object sender, GetMedalCompletedEventArgs e);
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "0.0.0.0")]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+public partial class GetMedalCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal GetMedalCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    /// <remarks/>
+    public int[] Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((int[])(this.results[0]));
         }
     }
 }
