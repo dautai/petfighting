@@ -8,37 +8,19 @@ public class Screen2 : MonoBehaviour {
 	string username = "SiuNhanDua";
 	string password = "password";
 	bool showerror = false;
+	string error = "";
 	string ip = "-1";
-	int id;
-	bool isfindip = false;
 	//debug
 	string debugstr = "";
 
 	void Start () 
 	{	
-		
+		StartCoroutine(getIP());
 	}
 	
 	void Update () 
 	{	
-		if(ip != "-1")
-		{
-			Service1 ser;
-			ser = new Service1();
-
-			id = ser.LogIn(username, password, ip);
-			
-			ip = "-1";
-			if(id > 0)
-			{
-				GetAllPlayerData();
-				Application.LoadLevel("Screen1");
-			}
-			else
-			{
-				showerror  = true;
-			}
-		}
+		
 	}
 	
 	void OnGUI () 
@@ -66,7 +48,7 @@ public class Screen2 : MonoBehaviour {
 			GUIStyle st = new GUIStyle(GUI.skin.label);
 			st.normal.textColor = Color.red;
 			st.alignment = TextAnchor.MiddleCenter;
-			GUI.Label(new Rect((Screen.width)/2-125, (Screen.height)/2+30, 250, 30), "Wrong username or password", st);
+			GUI.Label(new Rect((Screen.width)/2-125, (Screen.height)/2+30, 250, 30), error, st);
 		}
 		
 		GUI.BeginGroup(new Rect((Screen.width)/2-160, (Screen.height)/2+70, 320, 30));	
@@ -94,8 +76,45 @@ public class Screen2 : MonoBehaviour {
 		//GlobalScript.avatar = Resources.Load("image3") as Texture2D;
 		//GlobalScript.username = username;
 		//Application.LoadLevel("Screen1");
+		string userInfo ="";
+		if(ip != "-1")
+		{
+			//had IP
+
+			userInfo = GS.service.LogIn(username, password, ip);
+			
+			ip = "-1";
+			if(userInfo.Substring(0, 1)=="#") //login success
+			{
 				
-		StartCoroutine(getIP());
+				GS.logined = true;
+				
+				int pos = 0;
+				userInfo = userInfo.Substring(pos+1);
+				pos = userInfo.IndexOf("?");
+				GS.idUser = int.Parse(userInfo.Substring(0, pos));
+				
+				userInfo = userInfo.Substring(pos+1);
+				pos = userInfo.IndexOf("?");
+				GS.username = userInfo.Substring(0, pos);
+				
+				userInfo = userInfo.Substring(pos+1);
+				pos = userInfo.IndexOf("?");
+				GS.avatar = Resources.Load(userInfo.Substring(0, pos)) as Texture2D;
+				
+				Application.LoadLevel("Screen1");
+			}
+			else //Login false
+			{
+				error = "Wrong username or password!";
+				showerror  = true;
+			}
+		}
+		else{
+			//Non IP
+			error = "Please check internet connection!";
+			showerror  = true;
+		}
 	}
 	
 	IEnumerator getIP()
@@ -114,6 +133,7 @@ public class Screen2 : MonoBehaviour {
 		}
 	}
 	
+	/*
 	public void GetAllPlayerData()
 	{
 		GS.logined = true;
@@ -140,4 +160,6 @@ public class Screen2 : MonoBehaviour {
 		
 		debugstr = tStr2 + '{' + GS.petDetails.Count.ToString();
 	}
+	
+	*/
 }

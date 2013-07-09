@@ -38,61 +38,67 @@ public class Screen34 : MonoBehaviour {
 		GUI.skin = skin;
 		GUI.Box(new Rect(55, 0, 370, 30), titleName, "Title");
 		GUI.Label(new Rect(430, 0, 50, 50), iconScene, "LabelNormal");
-		GS.DrawAvatar();
-		
-		GUIStyle selectedButton = new GUIStyle(GUI.skin.customStyles[1]); //Button General
-		selectedButton.normal.background = selectedButton.active.background;
-		
-		//Choose type of pet
-		for(int i=0; i<5; i++)
-		{			
-			if(GUI.Button(new Rect(70+i*70, 50, 60, 30), typePet[i], i==selectingType?selectedButton:"ButtonGeneral"))
-			{
-				selectingType = i;
-				selectingPet = -1;
-				ApplyNumberOfType(i); 
-				updatePetShowingList(selectingType); //update list pet of this type
+		if(!GS.pressAvatar)
+		{
+			GS.DrawAvatar();
+			
+			GUIStyle selectedButton = new GUIStyle(GUI.skin.customStyles[1]); //Button General
+			selectedButton.normal.background = selectedButton.active.background;
+			
+			//Choose type of pet
+			for(int i=0; i<5; i++)
+			{			
+				if(GUI.Button(new Rect(70+i*70, 50, 60, 30), typePet[i], i==selectingType?selectedButton:"ButtonGeneral"))
+				{
+					selectingType = i;
+					selectingPet = -1;
+					ApplyNumberOfType(i); 
+					updatePetShowingList(selectingType); //update list pet of this type
+				}
 			}
-		}
-		GUI.Box(new Rect(0, 80, 480, 150), "", "BoxGroup1");
-		GUI.Box(new Rect(50, 215, 380, 110), "", "BoxGroup1");
-		
-		//draw button
-		GUI.Label(new Rect(5, 275, 40, 40),buttonBack);
-		if(GUI.Button(new Rect(5, 275, 40, 40), "", "ButtonCover"))
-		{
-			Application.LoadLevel("Screen7");
-		}
-		
-		GUI.Label(new Rect(435, 275, 40, 40),buttonOK);
-		if(GUI.Button(new Rect(435, 275, 40, 40), "", "ButtonCover"))
-		{
-			if(selectingPet!=-1)
+			GUI.Box(new Rect(0, 80, 480, 150), "", "BoxGroup1");
+			GUI.Box(new Rect(50, 215, 380, 110), "", "BoxGroup1");
+			
+			//draw button
+			GUI.Label(new Rect(5, 275, 40, 40),buttonBack);
+			if(GUI.Button(new Rect(5, 275, 40, 40), "", "ButtonCover"))
 			{
-				GS.numberOfPet++;
-				CreateNewPet();
 				Application.LoadLevel("Screen7");
 			}
+			
+			GUI.Label(new Rect(435, 275, 40, 40),buttonOK);
+			if(GUI.Button(new Rect(435, 275, 40, 40), "", "ButtonCover"))
+			{
+				if(selectingPet!=-1)
+				{
+					GS.numberOfPet++;
+					CreateNewPet();
+					Application.LoadLevel("Screen7");
+				}
+			}
+			
+			ShowPetList();
+			
+			//Show Detail about list
+			string detail;
+			if(selectingPet==-1)
+			{
+				detail = "please choose a pet";
+			}
+			else
+			{
+				//detail = selectingPet.ToString() + " is pet very cute";
+				detail = curPetDetails[selectingPet].detail;
+			}
+			GUI.Label(new Rect(64, 225, 352, 84), detail, "LabelNormal");
+			
+			//debug
+			debugStr = selectingType.ToString();
+			GUI.Label(new Rect(0, 0, 500, 500), debugStr);
 		}
-		
-		ShowPetList();
-		
-		//Show Detail about list
-		string detail;
-		if(selectingPet==-1)
-		{
-			detail = "please choose a pet";
+		else{
+			GS.PressAvatar();	
 		}
-		else
-		{
-			//detail = selectingPet.ToString() + " is pet very cute";
-			detail = curPetDetails[selectingPet].detail;
-		}
-		GUI.Label(new Rect(64, 225, 352, 84), detail, "LabelNormal");
-		
-		//debug
-		debugStr = selectingType.ToString();
-		GUI.Label(new Rect(0, 0, 500, 500), debugStr);
 	}
 	
 	

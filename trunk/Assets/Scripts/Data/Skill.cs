@@ -4,12 +4,7 @@ using System.Collections.Generic;
 
 public class Skill : object 
 {
-	public int id;
 	public string name;
-	public int pet;
-	public string isloop;
-	public string symbol;
-	
 	List<Movement> lMove;
 	
 	public Skill()
@@ -20,20 +15,12 @@ public class Skill : object
 	public void SetData(string fstr)
 	{
 		lMove.Clear();
-		string[] strs = fstr.Split('_');
-		id = int.Parse(strs[0]);
-		name = strs[1];
-		pet = int.Parse(strs[2]);
-		isloop = strs[3];
-		symbol = strs[4];
-		
-		Service1 ser = new Service1();
-		int[] idMoves = ser.GetListMovement(id);
-		
-		for(int i = 0; i < idMoves.Length; ++i)
+		string[] strs = fstr.Split('+');
+		name = strs[0];
+		for(int i = 1; i < strs.Length; ++i)
 		{
 			Movement tMove = new Movement();
-			tMove.SetData(ser.GetMovement(idMoves[i]));
+			tMove.SetData(strs[i]);
 			
 			lMove.Add(tMove);
 		}
