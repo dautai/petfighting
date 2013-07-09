@@ -23,7 +23,7 @@ public class Screen7 : MonoBehaviour {
 		//petList = new GlobalScript.Pet[numberOfPets];
 		for(int i = 0; i<numberOfPets; i++)
 		{
-			string[] skills = {"Jumpiee", "Punch it", "Hithithit", "Fire"};
+			//string[] skills = {"Jumpiee", "Punch it", "Hithithit", "Fire"};
 
 			//petList[i] = new GlobalScript.Pet("Lika", 20, 26, medal, 420, 500, 400, 600, 1807, 500, skills, "image5");
 		}
@@ -40,48 +40,57 @@ public class Screen7 : MonoBehaviour {
 		GUI.skin = skin;
 		GUI.Box(new Rect(55, 0, 370, 30), titleName, "Title");
 		GUI.Label(new Rect(430, 0, 50, 50), iconScene, "LabelNormal");
-		GS.DrawAvatar();
 		
-		GUI.Label(new Rect(0, 120, 55, 55), buttonMap);
-		
-		if(GUI.Button(new Rect(0, 120, 55, 55), "",  "ButtonCover"))
+		if(!GS.pressAvatar)
 		{
-			//Go to scene map
-		}
+			GS.DrawAvatar();
+			
+			GUI.Label(new Rect(0, 120, 55, 55), buttonMap);
+			
+			if(GUI.Button(new Rect(0, 120, 55, 55), "",  "ButtonCover"))
+			{
+				//Go to scene map
+				Application.LoadLevel("Screen23");
+			}
+			
+			GUI.Label(new Rect(0, 190, 55, 55), buttonWarehouse);
+			
+			if(GUI.Button(new Rect(0, 190, 55, 55), "",  "ButtonCover"))
+			{
+				//Go to scene warehouse 
+				Application.LoadLevel("Screen10");
+			}
 		
-		GUI.Label(new Rect(0, 190, 55, 55), buttonWarehouse);
-		
-		if(GUI.Button(new Rect(0, 190, 55, 55), "",  "ButtonCover"))
-		{
-			//Go to scene warehouse 
-		}
+			for(int i = 0; i<35; i++)
+			{
+				GUI.Label(new Rect(i*14, 276, 15, 44), defence, "LabelNormal");
+			}
+			
+			GUI.Label(new Rect(80, 50, 60, 30), "Money:", "LabelNormal");
+			GUI.Label(new Rect(140, 50, 60, 30), money.ToString(), "LabelNormal");
+			GUI.Label(new Rect(250, 50, 60, 30), "Medal:", "LabelNormal");
 	
-		for(int i = 0; i<35; i++)
-		{
-			GUI.Label(new Rect(i*14, 276, 15, 44), defence, "LabelNormal");
+			for(int i= 0; i<medal.Length; i++)
+			{
+				GUI.Label(new Rect(310+i*35, 50, 30, 30), medal[i].ToString(), "LabelNormal");
+			}
+			
+			//Show pets list
+			GUI.Box(new Rect(55, 80, 425, 190), "", "BoxGroup1");
+			//Pet 1
+			if(GS.petDatas.Count>0)
+			{
+				ShowPetsNew();
+				if(GS.petDatas.Count < 3)
+					ShowChoosePet(GS.petDatas.Count);
+			}
+			else
+			{
+				ShowChoosePet(0);
+			}
 		}
-		
-		GUI.Label(new Rect(80, 50, 60, 30), "Money:", "LabelNormal");
-		GUI.Label(new Rect(140, 50, 60, 30), money.ToString(), "LabelNormal");
-		GUI.Label(new Rect(250, 50, 60, 30), "Medal:", "LabelNormal");
-
-		for(int i= 0; i<medal.Length; i++)
-		{
-			GUI.Label(new Rect(310+i*35, 50, 30, 30), medal[i].ToString(), "LabelNormal");
-		}
-		
-		//Show pets list
-		GUI.Box(new Rect(55, 80, 425, 190), "", "BoxGroup1");
-		//Pet 1
-		if(GS.petDatas.Count>0)
-		{
-			ShowPetsNew();
-			if(GS.petDatas.Count < 3)
-				ShowChoosePet(GS.petDatas.Count);
-		}
-		else
-		{
-			ShowChoosePet(0);
+		else{
+			GS.PressAvatar();	
 		}
 	}
 	

@@ -57,14 +57,17 @@ public class PetData : object
 	public void SetSkill()
 	{
 		Service1 ser = new Service1();
-		int[] skillids = ser.GetListIDSkill(petID);
+		int[] moves = ser.GetListMovement(petID);
 		
-		foreach(int idskill in skillids)
+		foreach(int move in moves)
 		{
+			string str = "";
+
+			str = ser.GetMovement(move);			
 			Skill tSkill = new Skill();
-			tSkill.SetData(ser.GetSkilData(idskill));
+			tSkill.SetData(str);
 			
-			lSkill.Add(tSkill);
+			lSkill.Add(tSkill);			
 		}
 		
 	}
